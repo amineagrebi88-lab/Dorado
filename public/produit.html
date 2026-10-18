@@ -1,1 +1,57 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Détail Produit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="logo">TechStore</a>
+    <div>
+      <a href="index.html">Boutique</a>
+      <a href="panier.html" class="cart-btn">Panier (<span id="cart-count">0</span>)</a>
+    </div>
+  </nav>
+
+  <main>
+    <div id="product-detail" class="detail-container">Chargement...</div>
+  </main>
+
+  <script src="main.js"></script>
+  <script>
+    async function loadProductDetail() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get('id');
+
+      if (!productId) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      const res = await fetch(`/api/products/${productId}`);
+      if (!res.ok) {
+        document.getElementById('product-detail').innerHTML = '<h2>Produit introuvable</h2>';
+        return;
+      }
+
+      const product = await res.json();
+      document.getElementById('product-detail').innerHTML = `
+        <div class="detail-card">
+          <img src="${product.image}" alt="${product.name}">
+          <div class="detail-info">
+            <h1>${product.name}</h1>
+            <p class="price">${product.price.toFixed(2)} €</p>
+            <p class="description">${product.description}</p>
+            <button id="add-btn">Ajouter au panier</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('add-btn').addEventListener('click', () => addToCart(product));
+    }
+    loadProductDetail();
+  </script>
+</body>
+</html>
