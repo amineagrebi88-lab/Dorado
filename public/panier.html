@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Votre Panier</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="logo">TechStore</a>
+    <div>
+      <a href="index.html">Boutique</a>
+      <a href="panier.html" class="cart-btn">Panier (<span id="cart-count">0</span>)</a>
+    </div>
+  </nav>
 
+  <main>
+    <h1>Mon Panier</h1>
+    <div id="cart-content">
+      <ul id="cart-items-list"></ul>
+      <p class="total-bar">Total : <strong id="cart-total">0.00 €</strong></p>
+      <button id="clear-btn" class="btn-danger">Vider le panier</button>
+      <button id="checkout-btn">Commander</button>
+      <div id="result-message"></div>
+    </div>
+  </main>
+
+  <script src="main.js"></script>
+  <script>
+    function renderCartPage() {
+      const cart = getCart();
+      const list = document.getElementById('cart-items-list');
+      const totalEl = document.getElementById('cart-total');
+      const checkoutBtn = document.getElementById('checkout-btn');
+
+      if (cart.length === 0) {
+        list.innerHTML = '<li>Votre panier est vide.</li>';
+        totalEl.textContent = '0.00 €';
+        checkoutBtn.disabled = true;
+        return;
+      }
+
+      list.innerHTML = cart.map((item, index) => `
+        <li class="cart-item">
+          <span>${item.name}</span>
+          <strong>${item.price.toFixed(2)} €</strong>
+        </li>
+      `).join('');
+
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      totalEl.textContent = `${total.toFixed(2)} €`;
+      checkoutBtn.disabled = false;
+    }
+
+    document.getElementById('clear-btn').addEventListener('click', () => {
+      saveCart([]);
+      renderCartPage();
+    });
+
+    document.getElementById('checkout-btn').addEventListener('click', async () => {
+      const cart = getCart();
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cart })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        saveCart([]);
+        document.getElementById('result-message').innerHTML = `<p class="success">${data.message}</p>`;
+        renderCartPage();
+      }
+    });
+
+    renderCartPage();
+  </script>
+</body>
+</html>
