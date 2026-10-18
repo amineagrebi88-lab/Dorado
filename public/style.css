@@ -1,71 +1,87 @@
 body {
   font-family: system-ui, -apple-system, sans-serif;
   margin: 0;
-  padding: 0;
-  background-color: #f8fafc;
-  color: #1e293b;
+  background: #f8fafc;
+  color: #0f172a;
 }
 
-header {
-  background-color: #0f172a;
-  color: white;
+nav {
+  background: #0f172a;
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 1.5rem;
+  font-weight: 500;
+}
+
+nav .logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-left: 0;
+}
+
 main {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 2rem auto;
   padding: 0 1rem;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
 }
 
 .card {
   background: white;
-  border-radius: 8px;
   padding: 1rem;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   text-align: center;
 }
 
-.card img {
+.card img, .detail-card img {
   width: 100%;
-  height: 160px;
+  max-height: 200px;
   object-fit: cover;
   border-radius: 6px;
 }
 
-button {
-  background-color: #2563eb;
+.detail-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+button, .btn-secondary {
+  background: #2563eb;
   color: white;
-  border: none;
   padding: 0.6rem 1.2rem;
+  border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: 600;
-  margin-top: 0.5rem;
+  text-decoration: none;
+  display: inline-block;
 }
 
-button:hover {
-  background-color: #1d4ed8;
+.btn-secondary { background: #475569; }
+.btn-danger { background: #dc2626; }
+button:disabled { background: #94a3b8; cursor: not-allowed; }
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.8rem 0;
+  border-bottom: 1fr solid #e2e8f0;
 }
 
-button:disabled {
-  background-color: #94a3b8;
-  cursor: not-allowed;
-}
-
-#cart-section {
-  margin-top: 3rem;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-}
+.success { color: #16a34a; font-weight: bold; margin-top: 1rem; }
