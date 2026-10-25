@@ -155,9 +155,52 @@ html[dir="rtl"] .iti__country-list { text-align: right; }
 </div>
 <div class="toast" id="toast"></div>
 
-<!-- ملف الجافاسكريبت المخصص للأعلام وأرقام الدول -->
+<!-- مكتبة الأعلام ودول العالم -->
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
 <script>
+const countryStatesData = {
+  tn: {
+    ar: ["أريانة", "باجة", "بن عروس", "بنزرت", "قابس", "قفصة", "جندوبة", "القيروان", "القصرين", "قبلي", "الكاف", "مهدية", "منوبة", "مدنين", "المنستير", "نابل", "صفاقس", "سيدي بوزيد", "سليانة", "سوسة", "تطاوين", "توزر", "تونس", "زغوان"],
+    fr: ["Ariana", "Béja", "Ben Arous", "Bizerte", "Gabès", "Gafsa", "Jendouba", "Kairouan", "Kasserine", "Kébili", "Le Kef", "Mahdia", "Manouba", "Médenine", "Monastir", "Nabeul", "Sfax", "Sidi Bouzid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan"],
+    en: ["Ariana", "Beja", "Ben Arous", "Bizerte", "Gabes", "Gafsa", "Jendouba", "Kairouan", "Kasserine", "Kebili", "El Kef", "Mahdia", "Manouba", "Medenine", "Monastir", "Nabeul", "Sfax", "Sidi Bouzid", "Siliana", "Sousse", "Tataouine", "Tozeur", "Tunis", "Zaghouan"]
+  },
+  dz: {
+    ar: ["الجزائر", "وهران", "قسنطينة", "عنابة", "بليدة", "سطيف", "تلمسان", "باتنة", "بشار", "ورقلة"],
+    fr: ["Alger", "Oran", "Constantine", "Annaba", "Blida", "Sétif", "Tlemcen", "Batna", "Béchar", "Ouargla"],
+    en: ["Algiers", "Oran", "Constantine", "Annaba", "Blida", "Setif", "Tlemcen", "Batna", "Bechar", "Ouargla"]
+  },
+  ly: {
+    ar: ["طرابلس", "بنغازي", "مصراتة", "الزاوية", "البيضاء", "سبها", "طبرق", "زليتن"],
+    fr: ["Tripoli", "Benghazi", "Misrata", "Zawiya", "Bayda", "Sabha", "Tobrouk", "Zliten"],
+    en: ["Tripoli", "Benghazi", "Misrata", "Zawiya", "Bayda", "Sabha", "Tobruk", "Zliten"]
+  },
+  fr: {
+    ar: ["باريس (Île-de-France)", "أوفيرن-رون ألب", "أكيتين الجديدة", "أكسيتاني", "بروفانس ألب كوت دازور", "أوت دو فرانس", "غراند إيست"],
+    fr: ["Île-de-France", "Auvergne-Rhône-Alpes", "Nouvelle-Aquitaine", "Occitanie", "Provence-Alpes-Côte d'Azur", "Hauts-de-France", "Grand Est"],
+    en: ["Île-de-France", "Auvergne-Rhône-Alpes", "Nouvelle-Aquitaine", "Occitanie", "Provence-Alpes-Côte d'Azur", "Hauts-de-France", "Grand Est"]
+  },
+  sa: {
+    ar: ["الرياض", "مكة المكرمة", "المدينة المنورة", "المنطقة الشرقية", "عسير", "تبوك", "قصيم", "حائل", "جازان", "نجران"],
+    fr: ["Riyad", "Mecque", "Médine", "Province Orientale", "Assir", "Tabouk", "Qassim", "Haïl", "Jazan", "Najran"],
+    en: ["Riyadh", "Makkah", "Madinah", "Eastern Province", "Asir", "Tabuk", "Qassim", "Hail", "Jizan", "Najran"]
+  },
+  ae: {
+    ar: ["أبو ظبي", "دبي", "الشارقة", "عجمان", "أم القيوين", "رأس الخيمة", "الفجيرة"],
+    fr: ["Abou Dhabi", "Dubaï", "Charjah", "Ajman", "Oumm al-Qaïwaïn", "Ras el-Khaïmah", "Mousseïrah"],
+    en: ["Abu Dhabi", "Dubai", "Sharjah", "Ajman", "Umm Al Quwain", "Ras Al Khaimah", "Fujairah"]
+  },
+  us: {
+    ar: ["كاليفورنيا", "تكساس", "نيويورك", "فلوريدا", "إلينوي", "بنسلفانيا", "أوهايو", "واشنطن"],
+    fr: ["Californie", "Texas", "New York", "Floride", "Illinois", "Pensylvanie", "Ohio", "Washington"],
+    en: ["California", "Texas", "New York", "Florida", "Illinois", "Pennsylvania", "Ohio", "Washington"]
+  },
+  ca: {
+    ar: ["أونتاريو", "كبك", "كولومبيا البريطانية", "ألبرتا", "مانيتوبا", "ساسكاتشوان"],
+    fr: ["Ontario", "Québec", "Colombie-Britannique", "Alberta", "Manitoba", "Saskatchewan"],
+    en: ["Ontario", "Quebec", "British Columbia", "Alberta", "Manitoba", "Saskatchewan"]
+  }
+};
+
 const translations = {
   ar: {
     announcement: "تفاصيل صغيرة تصنع فرقًا كبيرًا في منزلك ✦ توصيل داخل تونس ومختلف الدول",
@@ -221,7 +264,7 @@ const translations = {
     addressLabel: "العنوان التفصيلي (الشارع / المنزل):",
     namePlaceholder: "مثال: أمين عقربي",
     phonePlaceholder: "53 916 241",
-    statePlaceholder: "مثال: نابل / تونس",
+    statePlaceholder: "اختر الولاية...",
     cityPlaceholder: "مثال: سليمان",
     addressPlaceholder: "مثال: نهج الزهور، نهج رقم 12",
     submitOrder: "تأكيد الطلب 🛍️",
@@ -296,7 +339,7 @@ const translations = {
     addressLabel: "Adresse détaillée (Rue / Maison) :",
     namePlaceholder: "Ex: Amine Agrebi",
     phonePlaceholder: "53 916 241",
-    statePlaceholder: "Ex: Nabeul / Tunis",
+    statePlaceholder: "Sélectionner la région...",
     cityPlaceholder: "Ex: Soliman",
     addressPlaceholder: "Ex: Rue les fleurs, N° 12",
     submitOrder: "Confirmer la commande 🛍️",
@@ -371,7 +414,7 @@ const translations = {
     addressLabel: "Detailed Address (Street / House):",
     namePlaceholder: "Ex: Amine Agrebi",
     phonePlaceholder: "53 916 241",
-    statePlaceholder: "Ex: Nabeul / Tunis",
+    statePlaceholder: "Select state...",
     cityPlaceholder: "Ex: Soliman",
     addressPlaceholder: "Ex: Flowers street, No. 12",
     submitOrder: "Confirm Order 🛍️",
@@ -420,6 +463,28 @@ const categoryTitles = {
 let cart = [];
 let currentFilter = 'all';
 let iti = null;
+
+function updateStatesDropdown(countryCode) {
+  const container = document.getElementById('stateFieldContainer');
+  if (!container) return;
+
+  const lang = document.getElementById('language').value || 'ar';
+  const t = translations[lang];
+
+  const statesObj = countryStatesData[countryCode];
+  if (statesObj && statesObj[lang]) {
+    const list = statesObj[lang];
+    const optionsHTML = list.map(st => `<option value="${st}">${st}</option>`).join('');
+    container.innerHTML = `
+      <select id="custState" required>
+        <option value="" disabled selected>${t.statePlaceholder}</option>
+        ${optionsHTML}
+      </select>
+    `;
+  } else {
+    container.innerHTML = `<input type="text" id="custState" required placeholder="${t.statePlaceholder}">`;
+  }
+}
 
 function changeLanguage(lang) {
   const t = translations[lang];
@@ -633,7 +698,13 @@ function openCartModal() {
         </label>
         
         <div class="field-grid">
-          <label class="field">${t.stateLabel} <input type="text" id="custState" required placeholder="${t.statePlaceholder}"></label>
+          <label class="field">${t.stateLabel}
+            <div id="stateFieldContainer">
+              <select id="custState" required>
+                <option value="" disabled selected>${t.statePlaceholder}</option>
+              </select>
+            </div>
+          </label>
           <label class="field">${t.cityLabel} <input type="text" id="custCity" required placeholder="${t.cityPlaceholder}"></label>
         </div>
 
@@ -643,7 +714,7 @@ function openCartModal() {
       </form>
     `;
 
-    // ربط وتفعيل مكتبة الأعلام ودول العالم بشكل فوري بعد فتح المودال
+    // تفعيل مكتبة الأعلام ودول العالم وتحديث ولايات الدولة المحددة
     requestAnimationFrame(() => {
       const phoneInput = document.getElementById("custPhone");
       if (phoneInput && window.intlTelInput) {
@@ -653,6 +724,15 @@ function openCartModal() {
           separateDialCode: true,
           preferredCountries: ["tn", "fr", "dz", "ly", "sa", "ae", "ca", "us"],
           utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js"
+        });
+
+        // تهيئة القائمة بالولاية التونسية افتراضياً
+        updateStatesDropdown("tn");
+
+        // الاستماع لتغيير الدولة في حقل الهاتف وتحديث قائمة الولايات
+        phoneInput.addEventListener("countrychange", () => {
+          const countryData = iti.getSelectedCountryData();
+          updateStatesDropdown(countryData.iso2);
         });
       }
 
