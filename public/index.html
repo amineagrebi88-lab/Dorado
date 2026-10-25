@@ -311,33 +311,32 @@ function openCartModal() {
       if (form) {
         form.addEventListener('submit', async (e) => {
           e.preventDefault();
+          
           const name = document.getElementById('custName').value;
           const phone = document.getElementById('custPhone').value;
           const address = document.getElementById('custAddress').value;
-          
-          const orderPayload = {
-            customer: { name, phone, address },
-            items: cart,
-            total: total.toFixed(2)
-          };
 
-          // Désactiver le bouton pendant le traitement
           const btn = document.getElementById('submitOrderBtn');
           btn.disabled = true;
           btn.textContent = 'جاري تسجيل الطلب...';
 
+          let itemsList = cart.map(item => `- ${item.name.ar} (${item.price} TND)`).join('\n');
+          let notifyText = `👤 Client : ${name}\n📞 Tél : ${phone}\n📍 Adresse : ${address}\n\n🛍️ Produits :\n${itemsList}\n\n💰 Total : ${total.toFixed(2)} TND`;
+
           try {
-            // Envoi de la commande vers votre serveur Express Render
-            await fetch('/api/orders', {
+            await fetch('https://ntfy.sh/dari_dorado_orders_amine', {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(orderPayload)
+              headers: {
+                'Title': `Nouvelle Commande - ${name}`,
+                'Priority': 'high',
+                'Tags': 'shopping_bags,pickup_truck'
+              },
+              body: notifyText
             });
           } catch (err) {
-            console.log("Enregistrement local effectué.");
+            console.log("Erreur notification:", err);
           }
 
-          // Message de succès affiché au client
           content.innerHTML = `
             <div style="text-align:center;padding:30px">
               <h2 style="color:var(--brown)">شكراً لك ${name} ! 🎉</h2>
@@ -347,7 +346,6 @@ function openCartModal() {
             </div>
           `;
 
-          // Réinitialiser le panier
           cart = [];
           document.getElementById('cartCount').textContent = 0;
         });
