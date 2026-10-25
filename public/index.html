@@ -127,7 +127,7 @@
     <div>
       <h4>تواصل معنا</h4>
       <p>تونس</p>
-      <a href="#contact">Facebook · Instagram · WhatsApp</a>
+      <a href="https://wa.me/21653916241" target="_blank">WhatsApp: +216 53 916 241</a>
     </div>
   </div>
   <div class="copyright">
@@ -145,7 +145,6 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// Base de données des produits pointant vers le dossier public/Img/
 const productsData = [
   { id: 1, name: { ar: "مزهرية سيراميك عضوية", fr: "Vase céramique organique", en: "Organic Ceramic Vase" }, cat: "vases", price: 49, image: "Img/1.jpg", tag: "الأكثر مبيعًا" },
   { id: 2, name: { ar: "إطار فني بألوان ترابية", fr: "Cadre artistique tons naturels", en: "Earth-Tone Art Frame" }, cat: "art", price: 65, image: "Img/2.jpg", tag: "جديد" },
@@ -299,11 +298,11 @@ function openCartModal() {
         <span>${total.toFixed(2)} TND</span>
       </div>
       <form id="checkoutForm" style="margin-top:20px;border-top:1px solid var(--line);padding-top:15px">
-        <h3 style="margin-bottom:10px">تفاصيل التوصيل</h3>
-        <label class="field">الاسم واللقب: <input type="text" id="custName" required placeholder="مثال: أمين"></label>
-        <label class="field">رقم الهاتف: <input type="tel" id="custPhone" required placeholder="مثال: 98123456"></label>
-        <label class="field">العنوان: <input type="text" id="custAddress" required placeholder="المدينة / الولاية"></label>
-        <button class="btn" type="submit" style="width:100%;margin-top:15px">تأكيد الطلب عبر واتساب 💬</button>
+        <h3 style="margin-bottom:10px">معلومات التوصيل</h3>
+        <label class="field">الاسم واللقب: <input type="text" id="custName" required placeholder="مثال: أمين عقربي"></label>
+        <label class="field">رقم الهاتف: <input type="tel" id="custPhone" required placeholder="مثال: 53916241"></label>
+        <label class="field">العنوان: <input type="text" id="custAddress" required placeholder="مثال: سليمان، نابل"></label>
+        <button class="btn" type="submit" style="width:100%;margin-top:15px">إرسال الطلب عبر واتساب 💬</button>
       </form>
     `;
 
@@ -316,14 +315,19 @@ function openCartModal() {
           const phone = document.getElementById('custPhone').value;
           const address = document.getElementById('custAddress').value;
           
-          let msg = `طلب جديد من Dari Dorado:%0A`;
-          msg += `الاسم: ${name}%0Aرقم الهاتف: ${phone}%0Aالعنوان: ${address}%0A%0Aالطلبات:%0A`;
+          let msg = `طلب جديد من Dari Dorado:%0A%0A`;
+          msg += `📌 *معلومات الحريف:*%0A`;
+          msg += `- الاسم واللقب: ${name}%0A`;
+          msg += `- رقم الهاتف: ${phone}%0A`;
+          msg += `- العنوان: ${address}%0A%0A`;
+          msg += `🛍️ *الطلبات:*%0A`;
           cart.forEach(item => {
             msg += `- ${item.name.ar} (${item.price} TND)%0A`;
           });
-          msg += `%0Aالمجموع: ${total.toFixed(2)} TND`;
+          msg += `%0A💰 *المجموع الإجمالي:* ${total.toFixed(2)} TND`;
 
-          window.open(`https://wa.me/21600000000?text=${msg}`, '_blank');
+          // Notification directe sur votre numéro WhatsApp (+216 53 916 241)
+          window.open(`https://wa.me/21653916241?text=${msg}`, '_blank');
         });
       }
     }, 100);
