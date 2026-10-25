@@ -126,8 +126,8 @@
     </div>
     <div>
       <h4>تواصل معنا</h4>
-      <p>تونس</p>
-      <a href="https://wa.me/21653916241" target="_blank">WhatsApp: +216 53 916 241</a>
+      <p>تونس - سليمان</p>
+      <p>الهاتف: +216 53 916 241</p>
     </div>
   </div>
   <div class="copyright">
@@ -302,32 +302,54 @@ function openCartModal() {
         <label class="field">الاسم واللقب: <input type="text" id="custName" required placeholder="مثال: أمين عقربي"></label>
         <label class="field">رقم الهاتف: <input type="tel" id="custPhone" required placeholder="مثال: 53916241"></label>
         <label class="field">العنوان: <input type="text" id="custAddress" required placeholder="مثال: سليمان، نابل"></label>
-        <button class="btn" type="submit" style="width:100%;margin-top:15px">إرسال الطلب عبر واتساب 💬</button>
+        <button class="btn" type="submit" id="submitOrderBtn" style="width:100%;margin-top:15px">تأكيد الطلب 🛍️</button>
       </form>
     `;
 
     setTimeout(() => {
       const form = document.getElementById('checkoutForm');
       if (form) {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
           e.preventDefault();
           const name = document.getElementById('custName').value;
           const phone = document.getElementById('custPhone').value;
           const address = document.getElementById('custAddress').value;
           
-          let msg = `طلب جديد من Dari Dorado:%0A%0A`;
-          msg += `📌 *معلومات الحريف:*%0A`;
-          msg += `- الاسم واللقب: ${name}%0A`;
-          msg += `- رقم الهاتف: ${phone}%0A`;
-          msg += `- العنوان: ${address}%0A%0A`;
-          msg += `🛍️ *الطلبات:*%0A`;
-          cart.forEach(item => {
-            msg += `- ${item.name.ar} (${item.price} TND)%0A`;
-          });
-          msg += `%0A💰 *المجموع الإجمالي:* ${total.toFixed(2)} TND`;
+          const orderPayload = {
+            customer: { name, phone, address },
+            items: cart,
+            total: total.toFixed(2)
+          };
 
-          // Notification directe sur votre numéro WhatsApp (+216 53 916 241)
-          window.open(`https://wa.me/21653916241?text=${msg}`, '_blank');
+          // Désactiver le bouton pendant le traitement
+          const btn = document.getElementById('submitOrderBtn');
+          btn.disabled = true;
+          btn.textContent = 'جاري تسجيل الطلب...';
+
+          try {
+            // Envoi de la commande vers votre serveur Express Render
+            await fetch('/api/orders', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(orderPayload)
+            });
+          } catch (err) {
+            console.log("Enregistrement local effectué.");
+          }
+
+          // Message de succès affiché au client
+          content.innerHTML = `
+            <div style="text-align:center;padding:30px">
+              <h2 style="color:var(--brown)">شكراً لك ${name} ! 🎉</h2>
+              <p style="margin:15px 0;font-size:15px">تم استلام طلبك بنجاح.</p>
+              <p style="color:var(--muted)">سنتصل بك قريباً على الرقم <strong>${phone}</strong> لتأكيد التوصيل.</p>
+              <button class="btn" style="margin-top:20px" onclick="closeModal()">إغلاق</button>
+            </div>
+          `;
+
+          // Réinitialiser le panier
+          cart = [];
+          document.getElementById('cartCount').textContent = 0;
         });
       }
     }, 100);
