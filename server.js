@@ -46,3 +46,17 @@ app.post('/api/checkout', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Serveur prêt sur http://localhost:${PORT}`);
 });
+// Endpoint pour recevoir les commandes des clients
+app.post('/api/orders', (req, res) => {
+  const { customer, items, total } = req.body;
+  
+  console.log('--- NOUVELLE COMMANDE REÇUE ---');
+  console.log(`Nom: ${customer.name}`);
+  console.log(`Téléphone: ${customer.phone}`);
+  console.log(`Adresse: ${customer.address}`);
+  console.log(`Articles:`, items.map(i => i.name.ar).join(', '));
+  console.log(`Total: ${total} TND`);
+  console.log('-------------------------------');
+
+  res.json({ success: true, message: 'Commande reçue avec succès' });
+});
