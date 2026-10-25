@@ -1,62 +1,409 @@
-const express = require('express');
-const path = require('path');
-const cors = require('cors');
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dari Dorado | ديكور يليق بمنزلك</title>
+<style>
+:root{--cream:#f7f2e9;--paper:#fffdf8;--sand:#e7d8c5;--tan:#b18a65;--brown:#4a3022;--gold:#b9975b;--ink:#28231f;--muted:#81766c;--line:#e8dfd3;--shadow:0 18px 55px #4a302212}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var(--cream);color:var(--ink);font-family:Arial,"Tahoma",sans-serif;line-height:1.6}button,input,select,textarea{font:inherit}button,a{cursor:pointer}a{color:inherit;text-decoration:none}button{border:0}.announcement{background:var(--brown);color:#fff7eb;text-align:center;padding:8px 12px;font-size:12px;letter-spacing:.3px}.nav{position:sticky;top:0;z-index:20;background:#fffdf8ed;backdrop-filter:blur(14px);border-bottom:1px solid #e7ded2;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(16px,5vw,72px);gap:18px}.brand{font-family:Georgia,serif;font-size:25px;letter-spacing:2px;font-weight:bold;white-space:nowrap}.brand span{color:var(--gold)}.navlinks{display:flex;align-items:center;gap:clamp(12px,2.3vw,30px);font-size:13px}.navlinks a{transition:color .25s,transform .25s}.navlinks a:hover{color:var(--tan);transform:translateY(-2px)}.navtools{display:flex;gap:9px;align-items:center}.iconbtn{background:transparent;border:1px solid var(--line);border-radius:50%;width:39px;height:39px;display:grid;place-items:center;position:relative;transition:.25s}.iconbtn:hover{background:var(--brown);color:white;transform:translateY(-2px) rotate(-4deg)}.count{position:absolute;top:-4px;right:-4px;background:var(--gold);color:#fff;border-radius:50%;font-size:10px;width:18px;height:18px;display:grid;place-items:center}.hamb{display:none}.hero{min-height:480px;margin:22px auto 0;width:min(1440px,96%);position:relative;overflow:hidden;border-radius:4px;background:linear-gradient(90deg,#f2e8da 0%,#f2e8daee 34%,#f2e8da10 72%),url('Img/1.jpg') center/cover;display:flex;align-items:center;padding:clamp(28px,7vw,100px);box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#f4eadc55,transparent 65%);pointer-events:none}.hero-copy{position:relative;z-index:1;max-width:470px;animation:heroIn .9s both}.eyebrow{text-transform:uppercase;letter-spacing:3px;font-size:11px;color:var(--tan);font-weight:bold}.hero h1{font:clamp(42px,6vw,76px)/1.05 Georgia,serif;margin:14px 0;color:#38271d;letter-spacing:-1.5px}.hero p{color:#65574c;max-width:360px;font-size:15px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--brown);color:white;padding:13px 22px;font-size:12px;letter-spacing:.6px;transition:transform .25s,background .25s,box-shadow .25s;box-shadow:0 7px 18px #4a30221c}.btn:hover{background:#77523a;transform:translateY(-3px);box-shadow:0 12px 25px #4a302230}.btn.light{background:var(--paper);color:var(--brown);border:1px solid var(--line)}.section{width:min(1320px,92%);margin:70px auto}.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:25px}.section-head h2{font:clamp(28px,4vw,39px) Georgia,serif;margin:3px 0}.section-head p{margin:0;color:var(--muted);font-size:13px}.textlink{font-size:12px;border-bottom:1px solid var(--gold);padding-bottom:5px}.categories{display:grid;grid-template-columns:repeat(6,1fr);gap:15px}.category{background:var(--paper);padding:12px 12px 17px;text-align:center;border:1px solid #eee5da;transition:transform .35s,box-shadow .35s;cursor:pointer}.category:hover{transform:translateY(-7px);box-shadow:var(--shadow)}.category-visual{height:120px;background:#f8f1e7;display:flex;align-items:center;justify-content:center;padding:6px;overflow:hidden}.category-visual img{max-width:100%;max-height:100%;object-fit:contain}.category strong{display:block;font-size:13px;margin-top:12px;font-weight:500}.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:20px}.filter{border:1px solid #ded2c3;background:transparent;padding:9px 16px;font-size:12px;transition:.25s}.filter.active,.filter:hover{background:var(--brown);border-color:var(--brown);color:white}.search{margin-inline-start:auto;display:flex;border:1px solid #ded2c3;background:var(--paper);padding:0 12px;align-items:center;min-width:220px}.search input{border:0;background:transparent;padding:10px;width:100%;outline:0}.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}.product{background:var(--paper);min-width:0;position:relative;border:1px solid #eee5da;transition:transform .35s,box-shadow .35s;overflow:hidden}.product:hover{transform:translateY(-6px);box-shadow:var(--shadow)}.product-img{height:250px;background:#f8f1e7;display:flex;align-items:center;justify-content:center;padding:10px;position:relative;overflow:hidden;cursor:pointer}.product-img img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}.tag{position:absolute;top:12px;right:12px;background:#fffdf0;padding:5px 9px;font-size:10px;color:var(--brown);z-index:1}.heart{position:absolute;top:10px;left:10px;background:#fffdf0e8;border-radius:50%;width:34px;height:34px;display:grid;place-items:center;z-index:2;transition:.2s}.heart:hover,.heart.liked{background:var(--brown);color:white;transform:scale(1.1)}.product-info{padding:15px}.product-info small{color:var(--tan);font-size:10px;letter-spacing:1px}.product-info h3{font-size:15px;font-weight:500;margin:4px 0}.product-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:12px}.price{font-weight:bold;font-size:14px}.add{width:35px;height:35px;background:var(--brown);color:white;font-size:20px;transition:.25s;display:grid;place-items:center}.add:hover{background:var(--gold);transform:rotate(90deg)}.banner{background:#dfcfba;display:grid;grid-template-columns:1fr 1fr;min-height:300px;overflow:hidden}.banner-art{background:url('Img/1.jpg') center/cover;min-height:260px}.banner-copy{padding:clamp(25px,5vw,65px);display:flex;flex-direction:column;justify-content:center;align-items:flex-start}.banner-copy h2{font:clamp(28px,4vw,42px)/1.1 Georgia,serif;margin:12px 0}.banner-copy p{color:#65574c;font-size:13px;max-width:380px}.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;border-block:1px solid var(--line);padding:27px 0}.benefit{text-align:center}.benefit b{display:block;font-size:13px;font-weight:500;margin:7px}.benefit span{font-size:11px;color:var(--muted)}.newsletter{background:#efe4d5;text-align:center;padding:55px 20px}.newsletter h2{font:34px Georgia,serif;margin:5px}.newsletter p{font-size:13px;color:var(--muted)}.newsletter form{display:flex;max-width:450px;margin:20px auto 0;background:var(--paper);padding:5px}.newsletter input{flex:1;min-width:0;border:0;background:transparent;padding:10px;outline:0}.footer{background:#33251d;color:#f6eee3;padding:45px clamp(18px,5vw,75px) 20px}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}.footer p,.footer a{font-size:12px;color:#cdbfb0}.footer h4{font-weight:500}.footer a{display:block;margin:8px 0;transition:.2s}.footer a:hover{color:white;transform:translateX(-3px)}.copyright{border-top:1px solid #57463a;margin-top:30px;padding-top:15px;font-size:11px;color:#b9a797;display:flex;justify-content:space-between;gap:15px}.overlay{position:fixed;inset:0;background:#21170fc2;z-index:50;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(5px)}.overlay.open{display:flex;animation:fadeIn .2s}.modal{background:var(--paper);width:min(780px,100%);max-height:90vh;overflow:auto;padding:25px;position:relative;animation:modalIn .3s}.close{position:absolute;top:12px;left:12px;background:transparent;font-size:25px;color:var(--brown)}.modal-product{display:grid;grid-template-columns:1fr 1fr;gap:25px}.modal-product .product-img{height:350px}.modal-product .product-img img{max-width:100%;max-height:100%;object-fit:contain}.cart-list{margin:20px 0;border-top:1px solid var(--line)}.cart-item-row{display:grid;grid-template-columns:60px 1fr auto auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}.cart-item-row img{width:60px;height:60px;object-fit:contain;background:#f8f1e7;border-radius:4px}.remove-btn{background:#e74c3c;color:white;padding:4px 8px;border-radius:3px;font-size:11px}.cart-total-bar{display:flex;justify-content:space-between;align-items:center;font-size:16px;font-weight:bold;margin:20px 0;padding:12px;background:#f2e8da}.field{display:block;margin:10px 0;font-size:12px}.field input,.field textarea{width:100%;padding:10px;border:1px solid var(--line);background:white;margin-top:4px}.toast{position:fixed;bottom:20px;left:20px;background:var(--brown);color:white;padding:13px 20px;z-index:100;transform:translateY(100px);opacity:0;transition:.3s;font-size:13px}.toast.show{transform:translateY(0);opacity:1}.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease}.reveal.visible{opacity:1;transform:translateY(0)}@keyframes heroIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes modalIn{from{opacity:0;transform:translateY(15px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:950px){.navlinks{gap:12px}.categories{grid-template-columns:repeat(3,1fr)}.products{grid-template-columns:repeat(3,minmax(0,1fr))}.product-img{height:220px}}
+@media(max-width:680px){.nav{padding:12px 15px}.brand{font-size:21px}.hamb{display:grid}.navlinks{display:none;position:absolute;top:100%;left:0;right:0;background:var(--paper);padding:18px;box-shadow:var(--shadow);flex-direction:column;align-items:stretch}.navlinks.open{display:flex}.navlinks a{padding:8px}.hero{width:100%;margin:0;min-height:480px;border-radius:0}.hero-copy{max-width:330px}.hero h1{font-size:49px}.categories{grid-template-columns:repeat(2,1fr);gap:10px}.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.product-img{height:175px}.banner{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}.modal-product{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="announcement" id="announcement">تفاصيل صغيرة تصنع فرقًا كبيرًا في منزلك ✦ توصيل داخل تونس</div>
+<header class="nav">
+  <button class="iconbtn hamb" id="hamb" aria-label="القائمة">☰</button>
+  <a class="brand" href="#home">DARI <span>DORADO</span></a>
+  <nav class="navlinks" id="navlinks">
+    <a href="#home">الرئيسية</a><a href="#shop">المتجر</a><a href="#collections">المجموعات</a><a href="#about">قصتنا</a><a href="#contact">اتصل بنا</a>
+  </nav>
+  <div class="navtools">
+    <select id="language" aria-label="Language" style="border:0;background:transparent;color:var(--brown);font-size:12px">
+      <option value="ar">AR</option>
+      <option value="fr">FR</option>
+      <option value="en">EN</option>
+    </select>
+    <button class="iconbtn" id="searchFocus" aria-label="بحث">⌕</button>
+    <button class="iconbtn" id="cartOpen" aria-label="السلة">♧<span class="count" id="cartCount">0</span></button>
+  </div>
+</header>
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+<main id="home">
+<section class="hero" id="hero" style="background-image: linear-gradient(90deg,#f2e8da 0%,#f2e8daee 34%,#f2e8da10 72%), url('Img/1.jpg');">
+  <div class="hero-copy" id="heroCopy">
+    <div class="eyebrow">اختيرت بعناية لمنزلك</div>
+    <h1>جمال التفاصيل.<br>دفء المنزل.</h1>
+    <p>قطع ديكور مميزة تضيف لمسة من الأناقة والروح إلى كل زاوية في بيتك.</p>
+    <a class="btn" href="#shop">اكتشف المجموعة <span>↙</span></a>
+  </div>
+</section>
 
-app.use(cors());
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+<section class="section reveal" id="collections">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">DARI DORADO EDIT</div>
+      <h2>تسوّق حسب الفئة</h2>
+      <p>اختر الكتالوج لمشاهدة الصور والمنتجات الخاصة به.</p>
+    </div>
+    <a class="textlink" href="#shop">عرض كل المنتجات ↙</a>
+  </div>
+  <div class="categories">
+    <div class="category" data-filter="vases"><div class="category-visual"><img src="Img/1.jpg" alt="Vases"></div><strong>مزهريات</strong></div>
+    <div class="category" data-filter="art"><div class="category-visual"><img src="Img/2.jpg" alt="Art"></div><strong>لوحات وإطارات</strong></div>
+    <div class="category" data-filter="mirrors"><div class="category-visual"><img src="Img/3.jpg" alt="Mirrors"></div><strong>مرايا</strong></div>
+    <div class="category" data-filter="sculptures"><div class="category-visual"><img src="Img/1.jpg" alt="Sculptures"></div><strong>تحف وتماثيل</strong></div>
+    <div class="category" data-filter="lighting"><div class="category-visual"><img src="Img/2.jpg" alt="Lighting"></div><strong>إضاءة</strong></div>
+    <div class="category" data-filter="accessories"><div class="category-visual"><img src="Img/3.jpg" alt="Accessories"></div><strong>إكسسوارات</strong></div>
+  </div>
+</section>
 
-// Base de données factice
-const products = [
-  { id: 1, name: "Casque Sans Fil Premium", price: 89.99, description: "Son haute fidélité avec réduction de bruit active et 30h d'autonomie.", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" },
-  { id: 2, name: "Montre Connectée Sport", price: 129.50, description: "Suivi cardiaque, GPS intégré et étanchéité jusqu'à 50 mètres.", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" },
-  { id: 3, name: "Clavier Mécanique RGB", price: 65.00, description: "Switchs tactiles silencieux avec rétroéclairage personnalisable.", image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500" }
+<section class="section reveal" id="shop">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">THE COLLECTION</div>
+      <h2 id="catalogTitle">قطع مختارة لك</h2>
+      <p id="catalogSub">اكتشف مجموعتنا من التحف والديكور المنزلي.</p>
+    </div>
+  </div>
+  <div class="toolbar" id="filters">
+    <button class="filter active" data-filter="all">الكل</button>
+    <button class="filter" data-filter="vases">مزهريات</button>
+    <button class="filter" data-filter="art">لوحات وإطارات</button>
+    <button class="filter" data-filter="mirrors">مرايا</button>
+    <button class="filter" data-filter="sculptures">تحف وتماثيل</button>
+    <button class="filter" data-filter="lighting">إضاءة</button>
+    <button class="filter" data-filter="accessories">إكسسوارات</button>
+    <label class="search"><span>⌕</span><input id="searchInput" placeholder="ابحث عن منتج..."></label>
+  </div>
+  <div class="products" id="products"></div>
+</section>
+
+<section class="section reveal" id="about">
+  <div class="banner">
+    <div class="banner-art"></div>
+    <div class="banner-copy">
+      <div class="eyebrow">MADE FOR YOUR SPACE</div>
+      <h2>منزلك، بطابعك الخاص.</h2>
+      <p>نختار قطعًا تجمع بين البساطة والجمال، لتمنح كل غرفة لمسة مميزة دون مبالغة.</p>
+      <a class="btn" href="#shop">اكتشف القطع ↙</a>
+    </div>
+  </div>
+</section>
+
+<section class="section reveal">
+  <div class="benefits">
+    <div class="benefit"><div style="font-size:25px">✧</div><b>اختيارات مميزة</b><span>قطع مختارة بعناية</span></div>
+    <div class="benefit"><div style="font-size:25px">♧</div><b>توصيل داخل تونس</b><span>تأكيد الطلب عبر الهاتف</span></div>
+    <div class="benefit"><div style="font-size:25px">♡</div><b>اهتمام بالتفاصيل</b><span>جمال في كل زاوية</span></div>
+    <div class="benefit"><div style="font-size:25px">☏</div><b>خدمة ودودة</b><span>نحن هنا لمساعدتك</span></div>
+  </div>
+</section>
+
+<section class="newsletter reveal">
+  <div class="eyebrow">A LITTLE NOTE FROM US</div>
+  <h2>لمسات جميلة، وأخبار أجمل.</h2>
+  <p>اترك بريدك لتصلك آخر الإضافات والعروض.</p>
+  <form id="newsletterForm">
+    <input type="email" placeholder="البريد الإلكتروني" required>
+    <button class="btn" type="submit">اشتراك</button>
+  </form>
+</section>
+</main>
+
+<footer class="footer" id="contact">
+  <div class="footer-grid">
+    <div>
+      <a class="brand" href="#home" style="color:#fff">DARI <span>DORADO</span></a>
+      <p>تفاصيل مختارة لتجعل منزلك أكثر دفئًا وأناقة.</p>
+    </div>
+    <div>
+      <h4>روابط سريعة</h4>
+      <a href="#shop">المتجر</a>
+      <a href="#collections">المجموعات</a>
+      <a href="#about">قصتنا</a>
+    </div>
+    <div>
+      <h4>تواصل معنا</h4>
+      <p>تونس - سليمان</p>
+      <p>الهاتف: +216 53 916 241</p>
+    </div>
+  </div>
+  <div class="copyright">
+    <span>© <span id="year"></span> Dari Dorado</span>
+    <span>جميع الحقوق محفوظة</span>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <button class="close" id="modalClose">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const productsData = [
+  { id: 1, name: { ar: "مزهرية سيراميك عضوية", fr: "Vase céramique organique", en: "Organic Ceramic Vase" }, cat: "vases", price: 49, image: "Img/1.jpg", tag: "الأكثر مبيعًا" },
+  { id: 2, name: { ar: "إطار فني بألوان ترابية", fr: "Cadre artistique tons naturels", en: "Earth-Tone Art Frame" }, cat: "art", price: 65, image: "Img/2.jpg", tag: "جديد" },
+  { id: 3, name: { ar: "مرآة ذهبية أنيقة", fr: "Miroir doré élégant", en: "Elegant Gold Mirror" }, cat: "mirrors", price: 129, image: "Img/3.jpg", tag: "مميز" },
+  { id: 4, name: { ar: "تمثال ديكوري تجريدي", fr: "Sculpture décorative abstraite", en: "Abstract Decor Sculpture" }, cat: "sculptures", price: 79, image: "Img/1.jpg", tag: "" },
+  { id: 5, name: { ar: "مصباح جانبي دافئ", fr: "Lampe d'appoint chaleureuse", en: "Warm Accent Lamp" }, cat: "lighting", price: 95, image: "Img/2.jpg", tag: "" },
+  { id: 6, name: { ar: "صينية ديكور بلون الرمل", fr: "Plateau déco couleur sable", en: "Sand-Tone Decor Tray" }, cat: "accessories", price: 39, image: "Img/3.jpg", tag: "" },
+  { id: 7, name: { ar: "مزهرية بلون العاج", fr: "Vase couleur ivoire", en: "Ivory Vase" }, cat: "vases", price: 55, image: "Img/1.jpg", tag: "" },
+  { id: 8, name: { ar: "لوحة تجريدية هادئة", fr: "Tableau abstrait doux", en: "Soft Abstract Artwork" }, cat: "art", price: 110, image: "Img/2.jpg", tag: "" },
+  { id: 9, name: { ar: "مرآة دائرية بسيطة", fr: "Miroir rond minimaliste", en: "Minimal Round Mirror" }, cat: "mirrors", price: 99, image: "Img/3.jpg", tag: "" },
+  { id: 10, name: { ar: "تحفة طائر ذهبية", fr: "Objet déco oiseau doré", en: "Golden Bird Ornament" }, cat: "sculptures", price: 42, image: "Img/1.jpg", tag: "" },
+  { id: 11, name: { ar: "شمعدان ديكوري", fr: "Bougeoir décoratif", en: "Decorative Candle Holder" }, cat: "lighting", price: 35, image: "Img/2.jpg", tag: "" },
+  { id: 12, name: { ar: "وعاء ديكور رخامي", fr: "Bol déco effet marbre", en: "Marble-Look Decor Bowl" }, cat: "accessories", price: 45, image: "Img/3.jpg", tag: "" }
 ];
 
-// 1. Tous les produits
-app.get('/api/products', (req, res) => {
-  res.json(products);
-});
+const categoryTitles = {
+  all: { ar: "قطع مختارة لك", fr: "Pièces sélectionnées", en: "Selected Items" },
+  vases: { ar: "كتالوج المزهريات", fr: "Catalogue : Vases", en: "Catalog: Vases" },
+  art: { ar: "كتالوج اللوحات والإطارات", fr: "Catalogue : Tableaux & Cadres", en: "Catalog: Art & Frames" },
+  mirrors: { ar: "كتالوج المرايا", fr: "Catalogue : Miroirs", en: "Catalog: Mirrors" },
+  sculptures: { ar: "كتالوج التحف والتماثيل", fr: "Catalogue : Sculptures", en: "Catalog: Sculptures" },
+  lighting: { ar: "كتالوج الإضاءة", fr: "Catalogue : Éclairage", en: "Catalog: Lighting" },
+  accessories: { ar: "كتالوج الإكسسوارات", fr: "Catalogue : Accessoires", en: "Catalog: Accessories" }
+};
 
-// 2. Un seul produit par son ID
-app.get('/api/products/:id', (req, res) => {
-  const product = products.find(p => p.id === parseInt(req.params.id));
-  if (!product) return res.status(404).json({ message: "Produit non trouvé" });
-  res.json(product);
-});
+let cart = [];
+let currentFilter = 'all';
 
-// 3. Valider la commande
-app.post('/api/checkout', (req, res) => {
-  const { cart } = req.body;
-  if (!cart || cart.length === 0) {
-    return res.status(400).json({ success: false, message: "Le panier est vide." });
+function renderProducts() {
+  const container = document.getElementById('products');
+  const lang = document.getElementById('language').value || 'ar';
+  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+  document.getElementById('catalogTitle').textContent = categoryTitles[currentFilter][lang];
+
+  const filtered = productsData.filter(p => {
+    const matchFilter = currentFilter === 'all' || p.cat === currentFilter;
+    const matchSearch = p.name[lang].toLowerCase().includes(searchTerm);
+    return matchFilter && matchSearch;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--muted);">لا توجد صور أو منتجات متاحة في هذا الكتالوج حالياً.</p>`;
+    return;
   }
 
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
-  res.json({
-    success: true,
-    message: `Commande validée avec succès ! Total : ${total.toFixed(2)} €`,
-    orderId: Math.floor(100000 + Math.random() * 900000)
+  container.innerHTML = filtered.map(p => `
+    <div class="product">
+      ${p.tag ? `<span class="tag">${p.tag}</span>` : ''}
+      <button class="heart" onclick="toggleLike(this)">♡</button>
+      <div class="product-img" onclick="openProductModal(${p.id})">
+        <img src="${p.image}" alt="${p.name[lang]}" loading="lazy">
+      </div>
+      <div class="product-info">
+        <small>${p.cat.toUpperCase()}</small>
+        <h3>${p.name[lang]}</h3>
+        <div class="product-bottom">
+          <span class="price">${p.price} TND</span>
+          <button class="add" onclick="addToCart(${p.id})">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectCategory(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter').forEach(b => {
+    b.classList.toggle('active', b.dataset.filter === filter);
   });
-});
+  renderProducts();
+}
 
-app.listen(PORT, () => {
-  console.log(`Serveur prêt sur http://localhost:${PORT}`);
-});
-// Endpoint pour recevoir les commandes des clients
-app.post('/api/orders', (req, res) => {
-  const { customer, items, total } = req.body;
+function addToCart(id) {
+  const product = productsData.find(p => p.id === id);
+  if (product) {
+    cart.push(product);
+    document.getElementById('cartCount').textContent = cart.length;
+    showToast(`تمت إضافة "${product.name.ar}" إلى السلة`);
+  }
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  document.getElementById('cartCount').textContent = cart.length;
+  openCartModal();
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+function toggleLike(btn) {
+  btn.classList.toggle('liked');
+  btn.textContent = btn.classList.contains('liked') ? '♥' : '♡';
+}
+
+function openProductModal(id) {
+  const p = productsData.find(item => item.id === id);
+  const lang = document.getElementById('language').value || 'ar';
+  const content = document.getElementById('modalContent');
   
-  console.log('--- NOUVELLE COMMANDE REÇUE ---');
-  console.log(`Nom: ${customer.name}`);
-  console.log(`Téléphone: ${customer.phone}`);
-  console.log(`Adresse: ${customer.address}`);
-  console.log(`Articles:`, items.map(i => i.name.ar).join(', '));
-  console.log(`Total: ${total} TND`);
-  console.log('-------------------------------');
+  content.innerHTML = `
+    <div class="modal-product">
+      <div class="product-img"><img src="${p.image}" alt="${p.name[lang]}"></div>
+      <div>
+        <h2>${p.name[lang]}</h2>
+        <p class="price" style="font-size:20px;margin:10px 0">${p.price} TND</p>
+        <p style="color:var(--muted)">قطع ديكور مصممة بإتقان لتضيف الأناقة والدفء لمساحتك.</p>
+        <button class="btn" style="margin-top:20px;width:100%" onclick="addToCart(${p.id}); closeModal();">إضافة إلى السلة</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('overlay').classList.add('open');
+}
 
-  res.json({ success: true, message: 'Commande reçue avec succès' });
+function openCartModal() {
+  const lang = document.getElementById('language').value || 'ar';
+  const content = document.getElementById('modalContent');
+
+  if (cart.length === 0) {
+    content.innerHTML = `
+      <div style="text-align:center;padding:30px">
+        <h2>سلة التسوق فارغة 🛒</h2>
+        <p style="color:var(--muted);margin-top:10px">لم تقم بإضافة أي قطع إلى السلة بعد.</p>
+        <button class="btn" style="margin-top:20px" onclick="closeModal()">تصفح المنتجات</button>
+      </div>
+    `;
+  } else {
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    const itemsHTML = cart.map((item, index) => `
+      <div class="cart-item-row">
+        <img src="${item.image}" alt="${item.name[lang]}">
+        <div>
+          <strong>${item.name[lang]}</strong>
+          <div style="color:var(--muted);font-size:11px">${item.cat.toUpperCase()}</div>
+        </div>
+        <strong>${item.price} TND</strong>
+        <button class="remove-btn" onclick="removeFromCart(${index})">حذف</button>
+      </div>
+    `).join('');
+
+    content.innerHTML = `
+      <h2>سلة التسوق (${cart.length})</h2>
+      <div class="cart-list">${itemsHTML}</div>
+      <div class="cart-total-bar">
+        <span>المجموع الإجمالي:</span>
+        <span>${total.toFixed(2)} TND</span>
+      </div>
+      <form id="checkoutForm" style="margin-top:20px;border-top:1px solid var(--line);padding-top:15px">
+        <h3 style="margin-bottom:10px">معلومات التوصيل</h3>
+        <label class="field">الاسم واللقب: <input type="text" id="custName" required placeholder="مثال: أمين عقربي"></label>
+        <label class="field">رقم الهاتف: <input type="tel" id="custPhone" required placeholder="مثال: 53916241"></label>
+        <label class="field">العنوان: <input type="text" id="custAddress" required placeholder="مثال: سليمان، نابل"></label>
+        <button class="btn" type="submit" id="submitOrderBtn" style="width:100%;margin-top:15px">تأكيد الطلب 🛍️</button>
+      </form>
+    `;
+
+    setTimeout(() => {
+      const form = document.getElementById('checkoutForm');
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          const name = document.getElementById('custName').value;
+          const phone = document.getElementById('custPhone').value;
+          const address = document.getElementById('custAddress').value;
+
+          const btn = document.getElementById('submitOrderBtn');
+          btn.disabled = true;
+          btn.textContent = 'جاري تسجيل الطلب...';
+
+          let itemsList = cart.map(item => `- ${item.name.ar} (${item.price} TND)`).join('\n');
+          let notifyText = `👤 Client : ${name}\n📞 Tél : ${phone}\n📍 Adresse : ${address}\n\n🛍️ Produits :\n${itemsList}\n\n💰 Total : ${total.toFixed(2)} TND`;
+
+          try {
+            await fetch('https://ntfy.sh/dari_dorado_orders_amine', {
+              method: 'POST',
+              headers: {
+                'Title': `Nouvelle Commande - ${name}`,
+                'Priority': 'high',
+                'Tags': 'shopping_bags,pickup_truck'
+              },
+              body: notifyText
+            });
+          } catch (err) {
+            console.log("Erreur notification:", err);
+          }
+
+          content.innerHTML = `
+            <div style="text-align:center;padding:30px">
+              <h2 style="color:var(--brown)">شكراً لك ${name} ! 🎉</h2>
+              <p style="margin:15px 0;font-size:15px">تم استلام طلبك بنجاح.</p>
+              <p style="color:var(--muted)">سنتصل بك قريباً على الرقم <strong>${phone}</strong> لتأكيد التوصيل.</p>
+              <button class="btn" style="margin-top:20px" onclick="closeModal()">إغلاق</button>
+            </div>
+          `;
+
+          cart = [];
+          document.getElementById('cartCount').textContent = 0;
+        });
+      }
+    }, 100);
+  }
+
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderProducts();
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  document.getElementById('cartOpen').addEventListener('click', openCartModal);
+
+  document.querySelectorAll('.filter').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      selectCategory(e.target.dataset.filter);
+    });
+  });
+
+  document.querySelectorAll('.category').forEach(cat => {
+    cat.addEventListener('click', () => {
+      const filter = cat.dataset.filter;
+      selectCategory(filter);
+      document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  document.getElementById('searchInput').addEventListener('input', renderProducts);
+  document.getElementById('searchFocus').addEventListener('click', () => {
+    document.getElementById('searchInput').focus();
+  });
+
+  document.getElementById('language').addEventListener('change', renderProducts);
+
+  document.getElementById('hamb').addEventListener('click', () => {
+    document.getElementById('navlinks').classList.toggle('open');
+  });
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('overlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('overlay')) closeModal();
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 });
+</script>
+</body>
+</html>
